@@ -2,13 +2,18 @@
 {% block content %}
     {% for post in posts %}
         <article class="media content-section">
+          <!-- showing the image of the user who has posted the blog. -->
+          <img src="{{ url_for('static' , filename = 'profile_pics/' + post.author.image_file ) }}" alt="" class="rounded-circle article-img">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ post.author }}</a>
-              <small class="text-muted">{{ post.date_posted }}</small>
+              <a class="mr-2" href="#">{{ post.author.username }}</a>
+              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
             </div>
-            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+            <!-- This is the updated url to go the the specific post page. -->
+            <h2><a class="article-title" href="{{ url_for('post' , post_id = post.id ) }}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content }}</p>
+            <img class="post-img" src="{{ url_for('static', filename='post_pics/' + post.post_image) }}" alt="post image">
+
           </div>
         </article>
     {% endfor %}

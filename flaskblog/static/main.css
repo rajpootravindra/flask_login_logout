@@ -82,3 +82,8 @@ body {
   img{
     height: fit-content;
   }
+
+.post-img{
+  height:250px;
+  width: 350px;
+}

@@ -1,0 +1,1293 @@
+1. create virtual environment activate it . and install flask library into the virtualenv. 
+
+pip install viratualenv
+virtualenv crud
+crud\Scipts\activate
+pip install flask 
+
+2. open visual studio code and start coding. 
+
+2.1  create a main file which runs the application. 
+ run.py
+
+from crudapp import app
+
+if __name__ ==  "__main__":
+    app.run(debug= True)
+
+
+2.2 - create a folder just next to the main file run.py 
+
+foler name , crudapplication 
+create a new file to initialize the application name. 
+
+
+__init__.py 
+
+from flask import flask
+app = Flask(__name__)
+
+create the static folder inside this curdapplication folder and keep the css files inside this static folder. 
+style.css
+
+.navigation{    background-color: rgb(0, 133, 138); }
+
+create the  routes.py file inside the crudapplication . and create all the routes for your application inside this file. 
+
+routes.py
+from crudapp import app
+from flask import render_template, redirect, url_for
+
+@app.route("/")
+@app.route("/home")
+def home():
+    return render_template("home.html",     title = "home page.")
+
+@app.route("/about")
+def about():
+    return render_template("about.html",    title = "About page.")
+
+@app.route("/register")
+def register():
+    return render_template("register.html", title = "register page.")
+
+@app.route("/login")
+def login():
+    return render_template("login.html",    title = "login page.")
+
+@app.route("/account")
+def account():
+    return render_template("account.html",    title = "User Account page.")
+
+@app.route("/logout")
+def logout():
+    return redirect(url_for("home"))
+
+
+
+2.4 - create templates folder inside the crudapplication folder. and create all the htmlpages inside this folder. 
+
+templates - folder 
+
+layout.html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+ 
+    {% if title %}
+    <title>Ecoders - {{ title }}</title>
+    {% else %}
+    <title>Ecoders Sample page</title>
+    {% endif %}
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css' )}}">
+  </head>
+   <body>
+       <div class="parent">
+
+        <div class="navigation">
+
+            <nav class="d-flex justify-content-between">
+              <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="{{ url_for('home')}}">Login-Logout</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="{{ url_for('home')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="{{ url_for('about')}}">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="{{ url_for('login')}}">login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="{{ url_for('register')}}">register</a>
+                </li>
+              </ul>
+
+                <div>
+                  <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                      <a class="nav-link text-light" href="{{ url_for('account')}}">User-Account</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-light" href="{{ url_for('logout')}}">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+          {% block maincenter %}
+          {% endblock maincenter %}
+        </div>
+
+       </div>
+ 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+2.5 inherit all the code of layout.html page , to home.html, about.html, login.html, register.html
+
+home.html 
+{%  extends  "layout.html" %}
+{% block  maincenter  %}
+ <h1>Home page </h1>
+{% endblock maincenter  %}
+
+about.html
+{%  extends  "layout.html" %}
+{% block  maincenter  %}
+ <h1>Home page </h1>
+{% endblock maincenter  %}
+
+login.html
+{%  extends  "layout.html" %}
+{% block  maincenter  %}
+ <h1>Home page </h1>
+{% endblock maincenter  %}
+
+register.html
+{%  extends  "layout.html" %}
+{% block  maincenter  %}
+ <h1>Home page </h1>
+{% endblock maincenter  %}
+
+account.html
+{%  extends  "layout.html" %}
+{% block  maincenter  %}
+ <h1>Home page </h1>
+{% endblock maincenter  %}
+
+
+
+
+3. creating register form and login form using the flask library ,    flask-wtf 
+stop the server and install this using command   l, 
+
+pip install flask-wtf        (all in small letters)
+
+(crud) C:\Users\user\Desktop\new_crud>pip install flask-wtf
+Collecting flask-wtf
+  Using cached Flask_WTF-1.0.1-py3-none-any.whl (12 kB)
+Requirement already satisfied: itsdangerous in c:\users\user\desktop\new_crud\crud\lib\site-packages (from flask-wtf) (2.1.2)
+Requirement already satisfied: Flask in c:\users\user\desktop\new_crud\crud\lib\site-packages (from flask-wtf) (2.2.2)
+Collecting WTForms
+  Using cached WTForms-3.0.1-py3-none-any.whl (136 kB)
+Requirement already satisfied: Jinja2>=3.0 in c:\users\user\desktop\new_crud\crud\lib\site-packages (from Flask->flask-wtf) (3.1.2)
+Requirement already satisfied: click>=8.0 in c:\users\user\desktop\new_crud\crud\lib\site-packages (from Flask->flask-wtf) (8.1.3)
+Requirement already satisfied: Werkzeug>=2.2.2 in c:\users\user\desktop\new_crud\crud\lib\site-packages (from Flask->flask-wtf) (2.2.2)
+Requirement already satisfied: importlib-metadata>=3.6.0 in c:\users\user\desktop\new_crud\crud\lib\site-packages (from Flask->flask-wtf) (5.1.0)
+Requirement already satisfied: MarkupSafe in c:\users\user\desktop\new_crud\crud\lib\site-packages (from WTForms->flask-wtf) (2.1.1)
+Requirement already satisfied: colorama in c:\users\user\desktop\new_crud\crud\lib\site-packages (from click>=8.0->Flask->flask-wtf) (0.4.6)
+Requirement already satisfied: zipp>=0.5 in c:\users\user\desktop\new_crud\crud\lib\site-packages (from importlib-metadata>=3.6.0->Flask->flask-wtf) (3.11.0)
+Installing collected packages: WTForms, flask-wtf
+Successfully installed WTForms-3.0.1 flask-wtf-1.0.1
+
+
+
+4. create a new file inside the crudapplicaiton folder called as forms.py . and create two classes RegisterForm and LoginForm.  
+
+forms.py 
+
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, Length, Email, EqualTo
+
+class RegistrationForm(FlaskForm):
+    username =         StringField("Username", validators=[DataRequired(), Length(min = 2, max = 20)])
+    email =            StringField("Email", validators=[DataRequired(), Email()])
+    password =         PasswordField("Password", validators=[DataRequired()])
+    confirm_password = StringField("Confirm Password", validators=[DataRequired(), EqualTo("password")])
+    submit           = SubmitField("Sign Up") 
+
+class LoginForm(FlaskForm):
+    email =            StringField("Email", validators=[DataRequired(), Email()])
+    password =         PasswordField("Password", validators=[DataRequired()])
+    remember = BooleanField("Remember me.")
+    submit           = SubmitField("Login") 
+
+    # in order to secure the besite from cookies alteration we need to set a secret key to our applicaiton when the user registers or logs in, inside the __init__.py file. 
+
+
+4.1 how to get the 16 byte secret key. using python. 
+
+(crud) C:\Users\user\Desktop\new_crud>python
+Python 3.9.12 (main, Apr  4 2022, 05:22:27) [MSC v.1916 64 bit (AMD64)] :: Anaconda, Inc. on win32
+
+Warning:
+This Python interpreter is in a conda environment, but the environment has
+not been activated.  Libraries may fail to load.  To activate this environment
+please see https://conda.io/activation
+
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import secrets
+>>> secrets.token_hex(16)
+'e70947125fdccc7cc6b5633541d8cc0a'
+
+
+5. menttion this 16 byte secret key, in the __init__.py file. 
+
+__init__.py
+
+from flask import Flask
+app = Flask(__name__)
+app.config["SECRET_KEY"] = 'e70947125fdccc7cc6b5633541d8cc0a'
+from crudapp import routes
+
+
+6. we need to import the RegistrationForm and Login form inside our routes.py file. , where we need to use them . in the , register() and login() routes. 
+and send these to forms to the respective htlm pages. (register.html, login.html)
+
+
+routes.py 
+
+from employee import app
+from flask import render_template, redirect, url_for
+from employee.forms import RegisterForm, LoginForm
+
+@app.route("/")
+@app.route("/home")
+def home():
+    return render_template("home.html",  title = "Home page.")
+
+@app.route("/about")
+def about():
+    return render_template("about.html",  title = "About page.")
+
+@app.route("/login")
+def login():
+    form = LoginForm()
+    return render_template("login.html",  title = "Login page.", form = form )
+
+@app.route("/register")
+def register():
+    form = RegisterForm()
+    return render_template("register.html",  title = "Register page.", form = form)
+
+@app.route("/account")
+def account():
+    return render_template("account.html",  title = "Account page.")
+
+@app.route("/logout")
+def logout():
+    return redirect(url_for("home"))
+ 
+
+
+7.  Now create the html forms using the flask-wtf , library in register.html and login.html using the jingja syntax. 
+
+register.html
+
+{%  extends  "layout.html"  %}
+
+{% block maincenter %}
+  <h3>Register page.</h3>
+
+  <form class="border p-5">
+    {{ form.hidden_tag() }}  
+    <div class="mb-3">
+      {{ form.username.label(class="form-label") }}                     
+      {{ form.username(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.email.label(class="form-label") }}                     
+      {{ form.email(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.password.label(class="form-label") }}                     
+      {{ form.password(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.confirm_password.label(class="form-label") }}                     
+      {{ form.confirm_password(class="form-control") }}
+    </div>
+
+       {{ form.submit(class="btn btn-outline-info") }}
+  </form>
+
+  <div class="text-muted">
+    Already Registered <a href="{{ url_for('login')}}">Sign In</a>
+  </div>
+{% endblock maincenter %}
+
+
+
+login.html
+
+{%  extends  "layout.html"  %}
+
+{% block maincenter %}
+  <h3>Login page.</h3>
+
+  <!-- CSRF cross site request forgery. -->
+  <form class="border p-5">
+    {{ form.hidden_tag() }}     
+    <div class="mb-3">
+      {{ form.email.label(class="form-label") }}
+      {{ form.email(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.password.label(class="form-label") }}
+      {{ form.password(class="form-control") }}
+    </div>
+
+        {{ form.submit(class="btn btn-outline-info") }}
+  </form>
+
+  <div class="text-muted">
+    Need An Account <a href="{{ url_for('register')}}">Sign Up</a>
+  </div>
+
+
+{% endblock maincenter %}
+
+
+
+database coding for our application. 
+we will be using sqlalchamy orm
+ORM - object relational mapper. allows us to easily use our database and map them with the parameters of the columns of the database tables.
+
+advantage of ORM and sqlalchamy is we can use this to connect to multiple databases without changing the python code.
+
+All we need to do is pass the different url's of the databases (mysql, postgresql, sqlite3, etc ) and it will connect automatically. 
+
+we will use sqlite3 database. 
+
+step 1 :- install sqlalchamy package. using pip installer
+
+pip install flask-sqlalchamy
+
+step2 :- import this library on top of the main file . of your application.  from flask_sqlalchemy import SQLAlchemy
+
+models.py
+
+from flask_sqlalchemy import SQLAlchemy
+
+now we need to mention the uri (internal link to connect to database. ) of the database to sqlalchamy to connect it. and we need to set this as a configuration in our app at the top. 
+
+
+step 3:- we configure the database uri for the sqlite3 database and database name site.db. 
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite3:///site.db'
+
+
+step 4 :- instantiate the SQLAlchemy() and pass the app our application name which we have kept using the constructor. inside the __init__.py file  import SQLAlchemy at the top and after the name is initialized for our app. we need to instantiater the SQLAlchemy() constructor and pass our app as one of the parameters. 
+
+__init__.py 
+
+db = SQLAlchemy(app)
+app.app_context().push()
+
+
+step5 :- is to create the user models. (as classes.) for each users. who will use this application. 
+
+models.py
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
+class User(db.Model):
+    # columns of the tables. 
+    id = db.Column(db.Integer, primary_key = True)
+    username   = db.Column(db.String(20),  unique   = True,  nullable = False)
+    email      = db.Column(db.String(120), unique   = True,  nullable = False)
+    image_name = db.Column(db.String(20),  nullable = False, default = 'default.jpg')
+    password   = db.Column(db.String(60),  nullable = False) 
+    # setting a relationship between author and the posts ( one to many.- one person can write as many post as possbile , but every post will have only one author.)
+    # note this will not be a new column. its just a relationship which will run in the background.
+    posts = db.relationship('Post', backref = 'author', lazy = True)
+    # lazy = True . sqlalchemy will load the data only when it is required . (not all at ones. )
+
+    # a repr() function - represent function used to print how our object is going to get printed . 
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.image_name}')" 
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(100), nullable = False)
+    date_posted = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    content = db.Column(db.Text, nullable = False)
+    # making the foreign key for the author who wrote the post. 
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    # here user.id is the table name and id is the column name in the user table.
+
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.date_posted}')" 
+
+
+
+step 6 :- now we will use these two models to create the database along with tables and columns. from command prompt in your virtual environment. 
+
+go to the cmd., open the virtualenv , activated and type . 
+python
+to start coding in python. 
+
+from employee import db
+
+# now we can create the database using the command. 
+db.create_all()
+
+
+ 
+ command line code. 
+
+
+(myenv) C:\Users\user\Desktop\blog_website>python
+Python 3.9.12 (main, Apr  4 2022, 05:22:27) [MSC v.1916 64 bit (AMD64)] :: Anaconda, Inc. on win32
+
+Warning:
+This Python interpreter is in a conda environment, but the environment has
+not been activated.  Libraries may fail to load.  To activate this environment
+please see https://conda.io/activation
+
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from employee import db
+>>> db.create_all()
+
+
+
+some queries. 
+
+(myenv) C:\Users\user\Desktop\blog_website>python
+Python 3.9.12 (main, Apr  4 2022, 05:22:27) [MSC v.1916 64 bit (AMD64)] :: Anaconda, Inc. on win32
+
+Warning:
+This Python interpreter is in a conda environment, but the environment has
+not been activated.  Libraries may fail to load.  To activate this environment
+please see https://conda.io/activation
+
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from employee import db
+>>> db.create_all()
+>>> from employee import User, Post
+>>> user_1 = User(username = "john" , email = "john@gmail.com" , password = "password")
+>>> db.session.add(user_1)
+>>> user_2 = User(username = "jane" , email = "jane@gmail.com" , password = "password")
+>>> db.session.add(user_2)
+>>> db.session.commit()
+>>> User.query.all()
+[User('john', 'john@gmail.com', 'default.jpg'), User('jane', 'jane@gmail.com', 'default.jpg')]
+>>> User.query.first()
+User('john', 'john@gmail.com', 'default.jpg')
+>>> User.query.filter_by(username = 'john').all()
+[User('john', 'john@gmail.com', 'default.jpg')]
+>>> User.query.filter_by(username = 'john').first()
+User('john', 'john@gmail.com', 'default.jpg')
+
+
+
+# we can store this user inside a variable. and later use that variable. to accesss all the columns from the database table.  
+
+>>> user = User.query.filter_by(username = 'john').first()
+>>> user.id
+1
+>>> user.username
+'john'
+>>> user.email
+'john@gmail.com'
+>>> user.password
+'password'
+>>> user = User.query.get(1)
+>>> user
+User('john', 'john@gmail.com', 'default.jpg')
+>>> user.posts
+[]                      # empty posts for this user right now. 
+
+
+# lets add some posts. by the user with id as 1. 
+>>> post_1 = Post(title = "Blog 1", content = "First Blog post." ,  user_id = user.id)
+# no need to provide the date. it will populate itself. cos we have used the utcnow.
+
+>>> post_1 = Post(title = "Blog 1", content = "First Post Content", user_id = user.id)
+>>> post_2 = Post(title = "Blog 2", content = "Second Post Content", user_id = user.id)
+>>> db.session.add(post_1)
+>>> db.session.add(post_2)
+>>> db.session.commit()
+
+# to see all the posts by user_id  =  1. 
+
+>>> user.posts
+[Post('Blog 1', '2022-12-13 07:36:04.223707'), Post('Blog 2', '2022-12-13 07:36:04.226693')]
+
+# printing all the titles of all the blogs. , using for loop. 
+
+>>> for post in user.posts:
+...     print(post.title)
+...
+Blog 1
+Blog 2
+>>>
+
+# queruing the posts. 
+
+>>> post  = Post.query.first()
+>>>
+>>> post
+Post('Blog 1', '2022-12-13 07:36:04.223707')
+
+# now to get the id, who created this. post. 
+
+>>> post.user_id
+1
+
+>>> post.author
+User('john', 'john@gmail.com', 'default.jpg')
+>>> db.drop_all()
+>>> db.create_all()
+>>> User.query.all()
+[]
+>>> Post.query.all()
+[]
+
+
+project structure :- 
+
+
+2. put all the models User model class and Post model class in a separate file. called as models.py just next to employee.py file.
+models.py 
+
+
+from datetime import datetime
+from employee import db
+# these two imports have to be cut from employee.py file and pasted at the top. 
+# then cut both the classes User, and Post class from employee.py file and paste it here in this file(models.py)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    password = db.Column(db.String(60), nullable=False)
+    posts = db.relationship('Post', backref='author', lazy=True)
+
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.date_posted}')"
+
+
+3. in employee.py file , now we will have to write a new import statement at the top to import the USer and Post models from the models.py file. 
+
+employee.py 
+from models import User, Post
+
+
+
+4  User authentication. 
+ 4.1 password encryption, 
+
+ pip install flask-bcrypt 
+
+initialize this inside the __init__.py file at the top . 
+
+__init__.py 
+
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+
+
+4.2 in register.html ., flash a message, saying that new user has been registered. and that can be done from the register route from the routes.py file. 
+first import db and bcrypt at the top of the file. 
+
+routes.py 
+
+from employee import app, db, bcrypt
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        # generate a hash code for the password entered and convert it into string format using the utf-8 as the parameter inside the decode() function. 
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        # get the information about the user from the html form.
+        user = User(username=form.username.data, 
+                    email=form.email.data, 
+                    password=hashed_password)
+        # adding this user to the database.
+        db.session.add(user)
+        # maknig the changes permanent in the database. 
+        db.session.commit()
+        # display a successful message for register ,by adding a success as the bootstrap classs name. 
+        flash('Your account has been created! You are now able to log in', 'success')
+        # after successfull registration lets bring the user directly to the login page. 
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
+
+
+# now the user can get registered in to the database. 
+# but with only one problem. any one can register with the same username and same email again and again we need to restrict this from happeningn. 
+if the username or email already exists , we should get a message to choose another one. 
+
+
+4.3 making custome validation 
+
+go the forms.py file and at the end of the RegistrationForm class . we can add the custome validation on the username and email field. 
+
+first import the User model from the models.py file at the top of forms.py file. 
+
+
+
+forms.py
+
+from employee.models import User
+from wtforms.validators import ValidationError
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Username',
+                           validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Sign Up')
+
+    # create an inbuilt function to validate the fields of the form. 
+    def validate_username(self, username):
+        # try to see if the user is already there in the database or not. 
+        user = User.query.filter_by(username = username.data).first()
+        # if the user with same username is already in the database. 
+        if user:
+            # then raise the error. statement saying to choose different username,
+             # ValidationError, is a class name which needs to be imported from the wtforms.validators library at the top.
+            raise ValidationError("Username already taken , please choose a different one.")
+    
+    # custome function to validate the email entered by the user. 
+    def validate_email(self, email):
+        # check if the email id exists in the database, if its there raise error message to choose another email id. 
+        user = User.query.filter_by(email = email.data).first()
+        if user:
+            raise ValidationError("Email id already taken , please choose a different one.")
+
+
+5. making the login system. 
+
+# now the registration system will be working just fine.
+now we need to do the login system. for this we are going to need a library , called as flask-login. 
+and the class we need from this package or module is LoginManager
+which we will need to install using pip 
+
+pip install flask-login
+
+5.1 initialize the login system inside the __init__.py file . 
+
+__init__.py 
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, UserMixin
+
+login_manager = LoginManager(app)
+
+
+5.2  now we need to add this functionality into the models of our application . inside the models. py file. 
+first import the instance of the login_manager at the top of this file. 
+
+
+
+models.py 
+from employee import db, login_manager
+
+# now create a function here at the top to fetch the user from the database based on the user_id passed. 
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# now we need one more class from flask_login module called as UserMixin() 
+# which has its own functionalites to add to the login page login form. 
+
+so we will pass this as the second arguemnt in the User() constructor , in the class creation. 
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    password = db.Column(db.String(60), nullable=False)
+    posts = db.relationship('Post', backref='author', lazy=True)
+
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+
+
+5.3  now the last thing to do is to check in the database , the username and email are valid or not. 
+and make the successful login ,and redirect them to the home page. of the application
+so in routes.py , go to the login route/function and make the changes. 
+
+
+routes.py 
+
+from flask_login import login_user
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        # first check if the email id is already in the database or not. 
+        user = User.query.filter_by(email=form.email.data).first()
+        # now if the email is there. then check for the password entered by the user matches with the password in the database table.
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            
+            #  so if the email and password is correct , we will use the inbuilt function , 
+            # login_user() which we will have to import from the flask_login library/package. to make the login 
+            # successful
+
+            login_user(user, remember=form.remember.data)   # second argument is True or False. (remember me)
+            
+            # after successful login . lets redirect them to the next page. that is home page.
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            # if the email and password is incorrect , login will be Unsuccessful,
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
+
+
+5.3  now make the login and register link disabled if the user is already logged in , and enable only if they are logged out of the application.
+
+now to check if the user is currently logged in . we can use the inbuilt funciton , called as current_user() from the flask_login library , which we will have to import at the top of the routes.py file. 
+
+and redirect the user to home page. if he is logged in. 
+and we will make this change in the login route as well as the register route. at the top . just after starting the function login() and register() , 
+
+now if you are logged in and if you click on the login or register link at the top you will not see them working. 
+you will automatically be navigated to the home page. 
+
+
+routes.py
+
+from flask_login import login_user, current_user
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    # here will use the current_user() function to redirect him to home page if he is already logged in. 
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        # first check if the email id is already in the database or not. 
+        user = User.query.filter_by(email=form.email.data).first()
+        # now if the email is there. then check for the password entered by the user matches with the password in the database table.
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            
+            #  so if the email and password is correct , we will use the inbuilt function , 
+            # login_user() which we will have to import from the flask_login library/package. to make the login 
+            # successful
+
+            login_user(user, remember=form.remember.data)   # second argument is True or False. (remember me)
+            
+            # after successful login . lets redirect them to the next page. that is home page.
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            # if the email and password is incorrect , login will be Unsuccessful,
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
+
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Your account has been created! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
+
+
+
+5.4  now lets make the logout() route , function in this file for makeing the user logout and return back to the login page. 
+
+routes.py 
+
+
+from flask_login import login_user, current_user, logout_user
+
+@app.route("/logout")
+def logout():
+    # we are going to use the inbuilt function called as logout_user() from the flask_login package
+    logout_user()
+    return redirect(url_for('home'))
+
+
+5.5 now add the logout route inside the layout.html page. 
+
+
+we will create a logout link in nav bar. of the applicaiton inside an if else condition. 
+
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{{ url_for('home')}}">Home</a>
+              <a class="nav-item nav-link" href="{{ url_for('about')}}">About</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if current_user.is_authenticated %}
+              <a class="nav-item nav-link" href="{{ url_for('account')}}">User-Account</a>
+              <a class="nav-item nav-link" href="{{ url_for('logout')}}">Logout</a>
+              {% else %}
+              <a class="nav-item nav-link" href="{{ url_for('login')}}">Login</a>
+              <a class="nav-item nav-link" href="{{ url_for('register')}}">Register</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+
+6. now to print the username who is logged in . in account.html page. 
+
+accout.html 
+{% extends  "layout.html" %}
+
+{% block content %}
+  <h1>{{ current_user.username }}</h1>
+{% endblock content %}
+
+
+now when you loggin it will show the Account link at the top of the nav bar. 
+but if we logout it will not show the account link and logout link. 
+
+#  but if we go to the url and manaually type the route as  /account 
+it will go the the account page. 
+but it will not print any username , 
+because it doesnt know who is the current user of the application.
+and no one has logged in . 
+
+So to rectify this issue we will require a new inbuit decorator. , called as login_required, which we will get it from the login_manager library. 
+so in route.py file at the top import this decorator called as login_required , on top of our function/route as decorator.  
+
+After adding this if the user is not logged in . and he has typed the url of the application to go to the account page. 
+127.0.0.1:5000/account, 
+it should navigate back to home page. with a message saying ,  you have to loggin to see the account page.
+
+routes.py
+
+from login_manager import login_user, login_required
+
+# function to show the account page of the user. 
+@app.route("/account")
+# we will add the login_required decorator.
+@login_required
+def account():
+    return render_template("account.html", title = "Account")
+
+
+ # now we need to tell the application where our route is located at. so that we will have to do in the __init__.py file. 
+
+__init__.py 
+
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
+app = Flask(__name__)
+app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+db = SQLAlchemy(app)
+app.app_context().push()
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'      # function name of the route for the account page.
+login_manager.login_message_category = "danger"
+from employee import routes
+
+
+
+
+
+
+
+
+7. updateing the account page and showing the user image. as well when he loggs in.  
+showing the default image for all the user who do not give there profile pic. 
+
+# now make a folder inside the static folder ,called as profile_pics and keep a common image for all the user. \
+called as default.jpg
+
+
+# now update the account() route to show the location of the default image. used for all the users who will login .
+
+routes.py
+# function to show the account page of the user. 
+@app.route("/account")
+# we will add the login_required decorator.
+@login_required
+def account():
+    imagefile = url_for("static" , filename = "profile_pics/" + current_user.imagefile)
+    # pass this image_file variable into the accont.html template
+    return render_template("account.html", title = "Account" , imagefile = imagefile)
+
+
+# now update the html page. to show the default image for all the users. 
+
+account.html
+{% extends  "layout.html" %}
+
+{% block content %}
+  <div class="content-section">
+    <div class="media">
+      <img src="{{ imagefile }}" alt="user image" class="rounded-circle account-img">
+      <div class="media-body">
+        <div class="account-heading">
+          {{ current_user.username }}
+        </div>
+        <p class="text-secondary">{{ current_user.email }}</p>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
+
+
+
+
+
+8 . updating the account information , like user image.  
+ # for this we will need to create a update form. inside the forms.py file. ( a separate class to update acccount details of the user. )
+
+  forms.py 
+
+from flask_login import current_user
+
+class UpdateAccountForm(FlaskForm):
+    # we will make two fields to update the username and email field. 
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email',       validators=[DataRequired(), Email()])
+    submit = SubmitField('Update')
+
+    # create a function to validate the fields of the form to check if the username and email is alredy taken.
+    # to do this we will also have to import the library ,     from flask_login import current_user,   at the top of this file. 
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user = User.query.filter_by(username = username.data).first()
+            if user:
+                raise ValidationError("Username already taken , please choose a different one.")
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            user = User.query.filter_by(email = email.data).first()
+            if user:
+                raise ValidationError("Email id already taken , please choose a different one.")
+
+
+  8.2 . now add this form inside the routes.py file , cos we need to import this UpdateAccountForm inside the account() route.
+
+  routes.py 
+
+from flaskblog.forms import UpdateAccountForm
+
+# function to show the account page of the user. 
+@app.route("/account")
+# we will add the login_required decorator.
+@login_required
+def account():
+    # make the instance of the UpdateAccountForm and pass that form into the account.html template. 
+    form = UpdateAccountForm()
+    imagefile = url_for("static" , filename = "profile_pics/" + current_user.imagefile)
+    # pass this image_file variable into the accont.html template
+    return render_template("account.html", title = "Account" , imagefile = imagefile , form = form)
+
+
+# now show this UpdateAccountForm inside the account.html page. just like the register.html page's form. 
+
+account.html
+
+{% extends  "layout.html" %}
+
+{% block content %}
+  <div class="content-section">
+    <div class="media">
+      <img src="{{ imagefile }}" alt="user image" class="rounded-circle account-img">
+      <div class="media-body">
+        <div class="account-heading">
+          {{ current_user.username }}
+        </div>
+        <p class="text-secondary">{{ current_user.email }}</p>
+      </div>
+    </div>
+
+    <form action="" method = "POST">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+         <div class="border-bottom mb-4"><b>User Account Information.</b></div>
+         <div class="form-group">
+            {{ form.username.label(class="form-control-label usenamefield") }}
+            {% if form.username.errors %}
+              {{ form.username(class="form-control form-control-lg is-invalid") }}
+               <div class="invalid-feedback">
+                   {% for error in form.username.errors %}
+                   <span>{{error}}</span>
+                    {% endfor %}
+                  </div>
+
+              {% else %}
+                 {{ form.username(class="form-control form-control-lg") }}
+            {% endif %}
+         </div>
+
+         <div class="form-group">
+          {{ form.email.label(class="form-control-label") }}
+          {% if form.email.errors %}
+              {{ form.email(class="form-control form-control-lg is-invalid") }}
+               <div class="invalid-feedback">
+                   {% for error in form.email.errors %}
+                   <span>{{error}}</span>
+                    {% endfor %}
+                  </div>
+
+              {% else %}
+                 {{ form.email(class="form-control form-control-lg") }}
+            {% endif %}
+       </div>
+
+       <!-- User update form will come here.-->
+
+      </fieldset>
+
+      <div class="form-group">
+          {{ form.submit(class="btn btn-outline-info")}}
+      </div>
+
+  </form>
+  </div>
+{% endblock content %}
+
+
+
+now update methods in the account route for the form submission. 
+
+routes.py 
+
+# function to show the account page of the user. 
+@app.route("/account",  methods = ["POST", "GET"])                  # udpated line
+# we will add the login_required decorator.
+@login_required
+def account():
+    # make the instance of the UpdateAccountForm and pass that form into the account.html template. 
+    form = UpdateAccountForm()
+    imagefile = url_for("static" , filename = "profile_pics/" + current_user.imagefile)
+    # pass this image_file variable into the accont.html template
+    return render_template("account.html", title = "Account" , imagefile = imagefile , form = form)
+
+
+
+# now we need to validate the form on submit. so we will use the if condition and validate_on_submit() function. to validate this update form. 
+and udpate the values inside the database table. 
+
+routes.py 
+
+# function to show the account page of the user. 
+@app.route("/account",  methods = ["POST" , "GET"])
+# we will add the login_required decorator.
+@login_required
+def account():
+    # make the instance of the UpdateAccountForm and pass that form into the account.html template. 
+    form = UpdateAccountForm()
+    # check if the form is valid on submission .
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash("Your account details were successfully updated.", "success")
+        # after updation we will redirect them to the account page. 
+        return redirect(url_for("account"))
+    elif request.method == "GET":
+        # this is to populate the form by the current users data as soon as they come to the account update page. 
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    imagefile = url_for("static" , filename = "profile_pics/" + current_user.imagefile)
+    # pass this image_file variable into the accont.html template
+    return render_template("account.html", title = "Account" , imagefile = imagefile , form = form)
+
+
+
+    # now to update the user image.
+for this we need 2 more libraries, from flask_wtf.file that is FileField, FileAllowed constructors. 
+both of these need to be imported at the top the forms.py file. 
+
+forms.py 
+
+from flask_wtf import FileField, FileAllowed 
+
+add this picture field inside the UpdateAccountForm() class. 
+
+class UpdateAccountForm(FlaskForm):
+    # we will make two fields to update the username and email field. 
+    username = StringField('Username',    validators=[DataRequired(), Length(min=2, max=20)])
+    email =    StringField('Email',       validators=[DataRequired(), Email()])
+    picture =  FileField("udpate profile Picture",  validators=[FileAllowed(['jpg','jpeg', 'png'])])
+    submit =   SubmitField('Update')
+
+
+# now udpate the html page also to show this picture field on the html page.
+account.html
+
+<!-- picture field will come here. just before the submit button.-->
+<div class="form-group">
+  {{ form.picture.label() }}
+  {{ form.picture(class="form-control-file") }}
+
+  {% if form.picture.errors %}
+      {% for error in form.picture.errors %}
+        <span class="text-danger">{{ error }}</span>  <br/>
+      {% endfor %}
+  {% endif %}
+</div>
+</fieldset>
+
+# now the code is ready to accept only jpg and png type of data image, if any other format is given. it will show errors.  
+
+
+# now to write the login for actually changing the profile image of the user. 
+# for that we will create a new function just about the account() function / route called as save_picture()  
+
+def save_picture(form_picture):
+    # change the name of the image to a simple name as soon as they will upload a image. this can be done by importing secrets module at the top from python directly , by writing.    import secrets. and using it here. 
+    random_hex = secrets.token_hex(8)
+    # now we will use the os moduel from python to save the file in the same extentions as the image extention. so impor os library and use the function. 
+    # this function returns 2 values image file without the extension and second is the extension itself. 
+    _ , f_ext = os.path.splitext(form_picture.filename)  # we dont require the file name in this line so we put it as _ underscore. 
+    # f_name , f_ext = os.path.splitext(form_picture.filename)
+    # we need the file name in this next line. 
+    picture_fn = random_hex + f_ext
+    # now we will store this image uploaded into the static folders profile_pics folder. 
+    picture_path = os.path.join(app.root_path , "static/profile_pics", picture_fn)
+    # now we will save that picture using the form_picture variable using the save() function. at the picture path that we just created. 
+    form_picture.save(picture_path)
+    # finally we will return the pictures file name, which was uploaded by the user. 
+    return picture_fn
+
+
+  
+# now we will call this save_picture() function inside out accout() route to save the image uploaded by the user. 
+
+@app.route("/account",  methods = ["POST" , "GET"])
+# we will add the login_required decorator.
+@login_required
+def account():
+    # make the instance of the UpdateAccountForm and pass that form into the account.html template. 
+    form = UpdateAccountForm()
+    # check if the form is valid on submission .
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            # now update the image file with the image which the user will give from the form. 
+            current_user.imagefile = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash("Your account details were successfully updated.", "success")
+        # after updation we will redirect them to the account page. 
+        return redirect(url_for("account"))
+    elif request.method == "GET":
+        # this is to populate the form by the current users data as soon as they come to the account update page. 
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    imagefile = url_for("static" , filename = "profile_pics/" + current_user.imagefile)
+    # pass this image_file variable into the accont.html template
+    return render_template("account.html", title = "Account" , imagefile = imagefile , form = form)
+
+# now we can upload any image from any folder location from our computer and set it as the profile image. 
+
+
+
+
+
+9. resising all the uploaded images from the user. using the library called as   PILLOW  , os stop the server and install that library. 
+pip install Pillow 
+ones installed import that into our routes.py file inside the account() route, 
+
+
+(myenv) C:\Users\user\Desktop\blog_website>pip install Pillow
+Collecting Pillow
+  Downloading Pillow-9.3.0-cp39-cp39-win_amd64.whl (2.5 MB)
+     ---------------------------------------- 2.5/2.5 MB 10.6 MB/s eta 0:00:00
+Installing collected packages: Pillow
+Successfully installed Pillow-9.3.0
+
+(myenv) C:\Users\user\Desktop\blog_website>
+
+ones installed you import the Image class from the PIL library, PIL will get installed automatically ones the Pillow package is installed. 
+
+
+routes.py 
+from PIL import Image
+
+so now go the save_picture() function , and we will have to resize the image before saving the function. 
+
+# function to save the profile picture. 
+def save_picture(form_picture):
+    # change the name of the image to a simple name as soon as they will upload a image. this can be done by importing secrets module at the top from python directly , by writing.    import secrets. and using it here. 
+    random_hex = secrets.token_hex(8)
+    # now we will use the os moduel from python to save the file in the same extentions as the image extention. so impor os library and use the function. 
+    # this function returns 2 values image file without the extension and second is the extension itself. 
+    _ , f_ext = os.path.splitext(form_picture.filename)  # we dont require the file name in this line so we put it as _ underscore. 
+    # f_name , f_ext = os.path.splitext(form_picture.filename)
+    # we need the file name in this next line. 
+    picture_fn = random_hex + f_ext
+    # now we will store this image uploaded into the static folders profile_pics folder. 
+    picture_path = os.path.join(app.root_path , "static/profile_pics", picture_fn)
+    # now we will save that picture using the form_picture variable using the save() function. at the picture path that we just created. 
+    # resize the image before saving. 
+    output_size = (125, 125)
+    # get the image from the form. 
+    i = Image.open(form_picture)
+    # now set the thumbnail of the image to the output_size which we have choosen.  
+    i.thumbnail(output_size)
+    # now save this 'i' resized image. into the folder location. 
+    i.save(picture_path)
+    # finally we will return the pictures file name, which was uploaded by the user. 
+    return picture_fn
+
+# now we can upload any size image and it will resize itself into 125 by 125 image size. 
+
+
+
+
+
+
+
+
+
+
