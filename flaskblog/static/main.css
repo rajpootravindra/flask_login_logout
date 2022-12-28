@@ -7,7 +7,9 @@ body {
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
   }
-  
+  .login-register-box{
+    margin: 1% 25%;
+  }
   .bg-steel {
     background-color: #5f788a;
   }
@@ -31,7 +33,7 @@ body {
     border-radius: 20px;
     margin-bottom: 20px;
   }
-  
+
   .article-title {
     color: #444444;
   }
@@ -86,4 +88,14 @@ body {
 .post-img{
   height:250px;
   width: 350px;
+}
+.unfollow-button{
+  margin-left: 100px;
+}
+#comment-box, #post {
+  border: none;
+  border-radius: 5px;
+}
+#post:hover{
+  background-color: rgb(102, 205, 221);
 }
