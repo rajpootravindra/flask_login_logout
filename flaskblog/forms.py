@@ -68,6 +68,6 @@ class UpdateAccountForm(FlaskForm):
 
 class PostForm(FlaskForm):
     title = StringField("Title" ,   validators=[DataRequired()])
-    post_image =  FileField("Add post picture",  validators=[FileAllowed(['jpg','jpeg', 'png'])])
-    content = TextAreaField("Content" , validators= [DataRequired()])
-    submit= SubmitField("Add Post")
+    post_image =  FileField("Add Blog Picture",  validators=[FileAllowed(['jpg','jpeg', 'png'])])
+    content = TextAreaField("Caption" , validators= [DataRequired()])
+    submit= SubmitField("Add New Blog")

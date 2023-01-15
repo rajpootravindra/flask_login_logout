@@ -27,7 +27,7 @@ body {
   }
   
   .content-section {
-    background: #FBF8F1;
+    background: #D989B5;
     padding: 10px 20px;
     border: 1px solid #dddddd;
     border-radius: 20px;
@@ -46,7 +46,8 @@ body {
   .article-content {
     white-space: pre-line;
   }
-  
+
+
   .article-img {
     height: 65px;
     width: 65px;
@@ -98,4 +99,31 @@ body {
 }
 #post:hover{
   background-color: rgb(102, 205, 221);
+}
+button {
+  background: blue;
+  border: none;
+  padding: 5px 10px;
+  color: whitesmoke;
+  width: 120px;
+  border-radius: 5px;
+  transition: all .3s ease-in;
+}
+
+button:active {
+  outline: none;
+}
+
+button:visited {
+  outline: none;
+}
+
+.unfollow {
+  background: red;
+  color: white;
+}
+
+.feed{
+  text-align:center;
+  padding: 15%;
 }

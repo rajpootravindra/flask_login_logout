@@ -1,21 +1,33 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if current_user.followed %}
+<h2>My Feed:</h2>
     {% for post in posts.items %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+              <h2><a class="mr-2" href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }}</a></h2>
+              <!-- {% if post.author != current_user %}
+              <div class="follow">
+                {% if follows %}
+                <a href="/unfollow/{{post.author.username}}"><button type="button" class="btn btn-info">UnFollow</button></a>
+                {% else %}
+                <a href="/follow/{{post.author.username}}"><button type="button" class="btn btn-info">Follow</button></a>
+                {% endif %}
+              </div>
+              {% endif %} -->
               <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
             </div>
             <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
             <img class="" src="{{ url_for('static', filename='post_pics/' + post.post_image) }}">
             <p class="article-content">{{ post.content }}</p>
-            <i onclick="myFunction(this)" class=" me-5 fa fa-thumbs-up fa-2x"></i>
-            <input type="text" id="comment-box" placeholder="Enter text">
-            <button id="post">Comment</button>
-            <ul id="unordered">
-            </ul>
+            {% if post.liked %}
+            <i onclick="myFunction(this,{{ post.id }})" class=" me-5  fa fa-regular fa-thumbs-up fa-2x"></i>
+            {% else %}
+            <i onclick="myFunction(this,{{ post.id }})" class=" me-5  fa-regular fa-thumbs-up fa-2x"></i>
+            {% endif %}
+            <div id="like-count-{{ post.id }}">{{post.likes |length }}</div>
           </div>
         </article>
     {% endfor %}
@@ -31,4 +43,11 @@
         ...
       {% endif %}
     {% endfor %}
+
+{% else %}
+
+<div class="feed">
+  <h4><p>There are no posts in your feed.</p><p>try connecting other user to see what they are posting </p></h4>
+</div>
+{% endif %}
 {% endblock content %}

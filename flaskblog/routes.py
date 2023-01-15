@@ -1,4 +1,4 @@
-from flaskblog.models import User, Post
+from flaskblog.models import User, Post,Like
 from flask import render_template, url_for, redirect, flash, request, abort
 # importing db  for connecting routes to the datbase and instance variable bcrypt which is created in the __init__.py for decrypting password
 from flaskblog import app, db, bcrypt
@@ -15,8 +15,20 @@ from PIL import Image
 def home():
     page = request.args.get('page', 1, type=int)
     # get all the post from the database.
-    posts = Post.query.order_by(
+    following = [u.id for u in current_user.followed]
+    following.append(current_user.id)
+    posts = Post.query.filter(Post.user_id.in_(following)).order_by(
         Post.date_posted.desc()).paginate(page=page, per_page=3)
+    for p in posts:
+        p.liked=False
+        likes  = [x.user_id for x in p.likes]
+        if current_user.id in likes:
+            p.liked = True
+
+
+    #posts fetching from api
+    #posts = request.get("http://127.0.0.1:5000/posts")
+
     return render_template('home.html', posts=posts)
 
     # now you will be able to add new posts and it will get shown in the home page. and this we would have fetched from the database.
@@ -55,7 +67,7 @@ def save_picture(form_picture):
     return picture_fn
 
 
-@app.route("/profile", methods=['POST', 'GET'])
+@app.route("/profile/", methods=['POST', 'GET'])
 @login_required
 def profile():
    # make the instance of the UpdateAccountForm and pass that form into the account.html template.
@@ -76,6 +88,8 @@ def profile():
         form.username.data = current_user.username
         form.email.data = current_user.email
     page = request.args.get('page', 1, type=int)
+    following = len(current_user.followed)
+    followers = len(current_user.followers)
     user = User.query.filter_by(username=current_user.username).first_or_404()
     posts = Post.query.filter_by(author=user)\
         .order_by(Post.date_posted.desc())\
@@ -83,8 +97,20 @@ def profile():
     image_file = url_for(
         "static", filename="profile_pics/" + current_user.image_file)
     # pass this image_file variable into the accont.html template
-    return render_template("profile.html", title="User Profile", posts=posts, image_file=image_file, form=form)
+    return render_template("profile.html", title="User Profile", posts=posts, image_file=image_file, form=form,following=following,followers=followers)
 
+
+@app.route("/profile/<string:username>", methods=['POST', 'GET'])
+@login_required
+def user_profile(username):
+    user = User.query.filter_by(username=username).first()
+    posts =user.posts
+    following = len(user.followed)
+    followers = len(user.followers)
+    follows=username in [u.username for u in current_user.followed]
+    image_file = url_for(
+        "static", filename="profile_pics/" + user.image_file)
+    return render_template("others_profile.html", title="Profile", posts=posts, image_file=image_file, user=user, follows=follows,following=following,followers=followers)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -272,13 +298,45 @@ def user_posts(username):
     return render_template('user_posts.html', posts=posts, user=user)
 
 
+# Function to follow other users
+
+@app.route('/follow/<username>')
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    current_user.followed.append(user)
+    db.session.commit()
+    flash('You are now following ' + username + '!')
+    return redirect(url_for('user_profile', username=username))
+
+@app.route('/unfollow/<username>')
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    current_user.followed.remove(user)
+    db.session.commit()
+    return redirect(url_for('user_profile', username=username))
+
+
+
+@app.route('/search',methods=['POST'])
+@login_required
+def search():
+    query = request.form.get('search')
+    similar_users=User.query.filter(User.username.like(f"{query}%")).all()
+    return render_template('search.html',users=similar_users)
+
+
+
+
 @app.route("/following")
 def following():
-    page = request.args.get('page', 1, type=int)
+    # page = request.args.get('page', 1, type=int)
+    users =current_user.followed
     # get all the users from the database.
-    users = User.query.order_by(
-        User.username.asc()).paginate(page=page, per_page=10)
-    return render_template('following.html', users=users, page=page)
+    # users = User.query.order_by(
+    #     User.username.asc()).paginate(page=page, per_page=10)
+    return render_template('following.html', users=users)
 
 
 @app.route("/followers")
@@ -288,3 +346,17 @@ def followers():
     users = User.query.order_by(
         User.username.asc()).paginate(page=page, per_page=10)
     return render_template('followers.html', users=users, page=page)
+
+@app.route("/like/<post_id>")
+def like(post_id):
+    post = Post.query.filter_by(id=post_id).first()
+    like = Like.query.filter_by(user_id=current_user.id, post_id=post.id).first()
+
+    if like:
+        db.session.delete(like)
+        db.session.commit()
+    else:
+        like = Like(user_id=current_user.id, post_id=post_id)
+        db.session.add(like)
+        db.session.commit()
+    return f'{len(post.likes)}'

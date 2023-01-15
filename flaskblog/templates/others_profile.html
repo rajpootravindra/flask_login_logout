@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <div class="row border border-secondary rounded-4">
+      <div class="media col-md-3">
+        <img src="{{ image_file }}" alt="user image" class="rounded-circle account-img">
+        <div class="media-body">
+          <div class="account-heading">
+            {{ user.username }}
+            {% if follows %}
+            <a href="/unfollow/{{user.username}}"><button type="button" class="btn btn-info">UnFollow</button></a>
+            {% else %}
+            <a href="/follow/{{user.username}}"><button type="button" class="btn btn-info">Follow</button></a>
+
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mt-5">
+        <a href="{{ url_for('user_posts', username=user.username) }}" role="button" class="btn btn-outline-info">
+        <h4>Total Posts</h4>
+        <h5>{{ posts|length }}</h5>
+        </a>
+      </div>
+      <div class="col-md-3 mt-5">
+        <a href="{{ url_for('following') }}" role="button" class="btn btn-outline-info">
+          <h4>Following</h4>
+          <h5>{{ following }}</h5>
+          </a>
+      </div>
+      <div class="col-md-3 mt-5">
+        <a href="{{ url_for('followers') }}" role="button" class="btn btn-outline-info">
+          <h4>Followers</h4>
+          <h5>{{ followers }}</h5>
+          </a>
+      </div>
+    </div>
+
+      <div class="col-md-8">
+        <h4>{{ user.username }} Posts:</h4>
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <h6><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h6>
+
+            <p class="article-content">{{ post.content }}</p>
+          </div>
+        </article>
+    {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
